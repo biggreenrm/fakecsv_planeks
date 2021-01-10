@@ -1,7 +1,7 @@
 from django.contrib.auth import (login as auth_login,  authenticate)
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 def login(request):
@@ -19,4 +19,4 @@ def login(request):
         else:
             _message = 'Invalid login, please try again.'
     context = {'message': _message}
-    return render(request, 'myaccount/login.html', context)
+    return render(request, 'login/login.html', context)
