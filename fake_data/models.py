@@ -36,7 +36,7 @@ class Field(models.Model):
 
 
 def csv_path():
-    return os.path.join(settings.MEDIA_ROTT, 'datasets')
+    return os.path.join(settings.MEDIA_ROOT, 'datasets')
 
 class DataSet(models.Model):
     """Model which describes CSV datasets accepted by using data-schema."""
