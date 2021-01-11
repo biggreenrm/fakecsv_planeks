@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .models import DataSchema, DataSet, Field
 
 
 def login(request):
@@ -34,5 +35,6 @@ def new_schema(request):
 
 @login_required
 def list_dataset(request, id):
+    schema = DataSchema.objects.get(id=id)
     context = {}
     return render(request, 'fake_data/list_dataset.html', context)
