@@ -27,6 +27,7 @@ class Field(models.Model):
         ('Address', 'Address'),
         ('Date', 'Date'),
     )
+    column_name = models.CharField(max_length=300)
     type = models.CharField(max_length=50, choices=CHOICES)
     order = models.PositiveIntegerField()
     schema = models.ForeignKey(DataSchema, on_delete=models.CASCADE)

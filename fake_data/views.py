@@ -1,9 +1,10 @@
 from django.contrib.auth import (login as auth_login,  authenticate)
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import DataSchema, DataSet, Field
+from .forms import FieldFormset, DataSchemaForm
 
 
 def login(request):
@@ -25,16 +26,29 @@ def login(request):
 
 @login_required
 def list_schema(request):
-    context = {}
-    return render(request, 'fake_data/list_schema.html', context)
+    schemas = DataSchema.objects.all()
+    return render(request, 'fake_data/list_schema.html', {'schemas': schemas})
 
 @login_required
 def new_schema(request):
-    context = {}
-    return render(request, 'fake_data/new_schema.html', context)
+    if request.method == "POST":
+        dataschema_form = DataSchemaForm(request.POST)
+        if dataschema_form.is_valid():
+            schema = dataschema_form.save()
+        field_formset = FieldFormset(request.POST, instance=schema)
+        if field_formset.is_valid():
+            field_formset.save()
+            return redirect('list_dataset', id=schema.id)
+    else:
+        dataschema_form = DataSchemaForm()
+        field_formset = FieldFormset()
+    return render(request, 'fake_data/edit_schema.html', {'field_formset': field_formset, 'dataschema_form': dataschema_form})
 
 @login_required
 def list_dataset(request, id):
     schema = DataSchema.objects.get(id=id)
-    context = {}
-    return render(request, 'fake_data/list_dataset.html', context)
+    return render(request, 'fake_data/list_dataset.html', {'schema': schema})
+
+#def edit_schema(request, id):
+
+#def delete_schema(request, id):
