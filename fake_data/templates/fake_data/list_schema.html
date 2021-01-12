@@ -10,7 +10,7 @@
                     <h1>Data Schemas</h1>
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-success" href="#">New Schema</a>
+                    <a class="btn btn-success" href="{% url 'new_schema' %}">New Schema</a>
                 </div>
             </div>
         </div>
@@ -28,10 +28,10 @@
                     {% for schema in schemas %}
                     <tr>
                         <th scope="row">{{ schema.id }}</th>
-                        <td>{{ schema.title }}</td>
+                        <td><a href="{{ schema.get_absolute_url }}">{{ schema.title }}</a></td>
                         <td>{{ schema.updated }}</td>
-                        <td><a href="#" class="link-primary">Edit scheme</a></td>
-                        <td><a href="#" class="link-danger">Delete</a></td>
+                        <td><a href="{% url 'edit_schema' id=schema.id %}" class="link-primary">Edit scheme</a></td>
+                        <td><a href="{% url 'delete_schema' id=schema.id %}" class="link-danger">Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

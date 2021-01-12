@@ -44,11 +44,32 @@ def new_schema(request):
         field_formset = FieldFormset()
     return render(request, 'fake_data/edit_schema.html', {'field_formset': field_formset, 'dataschema_form': dataschema_form})
 
+
+@login_required
+def edit_schema(request, id):
+    schema = DataSchema.objects.get(id=id)
+    if request.method == "POST":
+        dataschema_form = DataSchemaForm(request.POST, instance=schema)
+        if dataschema_form.is_valid():
+            schema = dataschema_form.save()
+        field_formset = FieldFormset(request.POST, instance=schema)
+        if field_formset.is_valid():
+            field_formset.save()
+            return redirect('list_dataset', id=schema.id)
+    else:
+        dataschema_form = DataSchemaForm(instance=schema)
+        field_formset = FieldFormset(instance=schema)
+    return render(request, 'fake_data/edit_schema.html', {'field_formset': field_formset, 'dataschema_form': dataschema_form})
+
 @login_required
 def list_dataset(request, id):
     schema = DataSchema.objects.get(id=id)
-    return render(request, 'fake_data/list_dataset.html', {'schema': schema})
+    datasets = DataSet.objects.filter(schema=schema)
+    return render(request, 'fake_data/list_dataset.html', {'schema': schema, 'datasets': datasets})
 
-#def edit_schema(request, id):
 
-#def delete_schema(request, id):
+@login_required
+def delete_schema(request, id):
+    schema = DataSchema.objects.get(id=id)
+    schema.delete()
+    return redirect('list_schema')
