@@ -25,27 +25,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for schema in schemas %}
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td><a href="#" class="link-primary">Primary link</a></td>
-                        <td><a href="#" class="link-danger">Danger link</a></td>
+                        <th scope="row">{{ schema.id }}</th>
+                        <td>{{ schema.title }}</td>
+                        <td>{{ schema.updated }}</td>
+                        <td><a href="#" class="link-primary">Edit scheme</a></td>
+                        <td><a href="#" class="link-danger">Delete</a></td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td><a href="#" class="link-primary">Primary link</a></td>
-                        <td><a href="#" class="link-danger">Danger link</a></td>
-                    </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Larry the Bird</td>
-                        <td>Larson</td>
-                        <td><a href="#" class="link-primary">Primary link</a></td>
-                        <td><a href="#" class="link-danger">Danger link</a></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
               </table>
         </div>
