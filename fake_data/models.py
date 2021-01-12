@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 import os
 
 
@@ -12,6 +13,9 @@ class DataSchema(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("list_dataset", args=[self.id])
 
 
 class Field(models.Model):
